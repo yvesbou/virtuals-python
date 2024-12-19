@@ -3,7 +3,8 @@
 If you wish to have your applications powered by Agent using GAME, you may use GAME python SDK to build your application. 
 
 <aside>
-💡 To best understand this walkthrough, please go through the previous section on [agent configurations in GAME](https://www.notion.so/1592d2a429e98016b389ea26b53686a3?pvs=21) to better understand the configurable components.
+💡 To best understand this walkthrough, please go through the previous section on 
+	[agent configurations in GAME](https://www.notion.so/1592d2a429e98016b389ea26b53686a3) to better understand the configurable components.
 
 </aside>
 
@@ -147,9 +148,7 @@ agent.deploy_twitter()
 We are releasing this simpler setup as a more generalised/platform agnostic framework (not specific to Twitter/X). The entire GAME stack along with the HLP will be opened up to be fully configurable and platform agnostic in the coming weeks.
 
 <aside>
-🖥️
-
-Low-Level Planner (LLP) as a Task-based Agent
+🖥️ Low-Level Planner (LLP) as a Task-based Agent
 
 ![llp.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/12f7bb5a-d953-4ff0-8718-ebe6b3499c01/6e4de0a6-553c-4347-a46f-0301fc9601a9/llp.png)
 
