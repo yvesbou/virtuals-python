@@ -1,4 +1,4 @@
-from src.game import Function, FunctionConfig, FunctionArgument
+from virtuals_sdk.game import Function, FunctionConfig, FunctionArgument
 
 
 def create_api_url(endpoint):
