@@ -12,7 +12,7 @@ If you wish to have your applications powered by Agent using GAME, you may use G
 
 Open the [Virtuals Platform](https://app.virtuals.io/) and create/get an API key from the Virtuals Sandbox by clicking “Access G.A.M.E API” 
 
-![Screenshot 2024-12-19 at 7.43.26 PM.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/12f7bb5a-d953-4ff0-8718-ebe6b3499c01/b7be714a-a3e7-4f30-a7dd-5ac8e7c17066/Screenshot_2024-12-19_at_7.43.26_PM.png)
+![getGAMEApi](/accesskey.png)
 
 Store the key in a safe location, like a `.bashrc` or a `.zshrc` file. 
 
