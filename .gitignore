@@ -1,0 +1,7 @@
+*.pth
+*.env
+*#
+*~
+*.pyc
+*__pycache__
+*.json
