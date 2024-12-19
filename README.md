@@ -13,7 +13,7 @@ pip install virtuals_sdk
 
 ## Usage
 ```python
-from virtuals.game import Agent
+from virtuals_sdk.game import Agent
 
 # Create agent with just strings for each component
 agent = Agent(
