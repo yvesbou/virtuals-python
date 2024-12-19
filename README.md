@@ -150,7 +150,7 @@ We are releasing this simpler setup as a more generalised/platform agnostic fram
 <aside>
 🖥️ Low-Level Planner (LLP) as a Task-based Agent
 
-![llp.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/12f7bb5a-d953-4ff0-8718-ebe6b3499c01/6e4de0a6-553c-4347-a46f-0301fc9601a9/llp.png)
+![llp.png](/llp.png)
 
 </aside>
 
