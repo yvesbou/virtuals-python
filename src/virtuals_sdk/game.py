@@ -2,7 +2,7 @@ from typing import List, Dict, Optional, Union, Set
 from dataclasses import dataclass, asdict
 import json
 import uuid
-import sdk
+from virtuals_sdk import sdk
 
 
 @dataclass
