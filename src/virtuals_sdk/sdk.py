@@ -2,7 +2,7 @@ import requests
 
 
 class GameSDK:
-    api_url: str = "http://localhost:3000/api"
+    api_url: str = "https://game-api.virtuals.io/api"
     api_key: str
 
     def __init__(self, api_key: str):
