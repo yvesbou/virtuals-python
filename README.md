@@ -25,7 +25,7 @@ export VIRTUALS_API_KEY="your_virtuals_api_key"
 Alternatively, you can also use a `.env` file ([`python-dotenv` package](https://github.com/theskumar/python-dotenv) to store and load the key) if you are using the Virtuals Python SDK.
 
 ## Usage (GAME)
-The Virtuals SDK is currently to developed and configure agents powered by GAME. This GAME SDK can be used for multiple use cases:
+The Virtuals SDK current main functionalities are to develop and configure agents powered by GAME. Other functionalities to interact with the Virtuals Platform will be supported in the future. This GAME SDK can be used for multiple use cases:
 
 1. Develop, evaluate and update the existing Agent in Twitter environment.
 2. Build on other platforms and application using GAME (Task-based Agent). 
@@ -172,7 +172,7 @@ Task description serves as the prompt for the agent to respond. Since the reacti
 
 
 ## Importing Functions and Sharing Functions
-With this SDK and function structure, importing and sharing functions is also possible.
+With this SDK and function structure, importing and sharing functions is also possible. Looking forward to all the different contributions and functionalities we will build together as a community!
 
 ```python
 from virtuals_sdk.functions.telegram import TelegramClient
