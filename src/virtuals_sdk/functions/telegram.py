@@ -76,6 +76,7 @@ class TelegramClient:
             config=FunctionConfig(
                 method="post",
                 url=self.create_api_url("sendMessage"),
+                platform="telegram",
                 headers={"Content-Type": "application/json"},
                 payload={
                     "chat_id": "{{chat_id}}",
@@ -120,6 +121,7 @@ class TelegramClient:
             config=FunctionConfig(
                 method="post",
                 url=self.create_api_url("send{{media_type}}"),
+                platform="telegram",
                 headers={"Content-Type": "application/json"},
                 payload={
                     "chat_id": "{{chat_id}}",
@@ -164,6 +166,7 @@ class TelegramClient:
             config=FunctionConfig(
                 method="post",
                 url=self.create_api_url("sendPoll"),
+                platform="telegram",
                 headers={"Content-Type": "application/json"},
                 payload={
                     "chat_id": "{{chat_id}}",
@@ -204,6 +207,7 @@ class TelegramClient:
             config=FunctionConfig(
                 method="post",
                 url=self.create_api_url("pinChatMessage"),
+                platform="telegram",
                 headers={"Content-Type": "application/json"},
                 payload={
                     "chat_id": "{{chat_id}}",
@@ -238,6 +242,7 @@ class TelegramClient:
             config=FunctionConfig(
                 method="post",
                 url=self.create_api_url("deleteMessage"),
+                platform="telegram",
                 headers={"Content-Type": "application/json"},
                 payload={
                     "chat_id": "{{chat_id}}",
@@ -272,6 +277,7 @@ class TelegramClient:
     #         config=FunctionConfig(
     #             method="post",
     #             url=self.create_api_url("setChatTitle"),
+    #             platform="telegram",
     #             headers={"Content-Type": "application/json"},
     #             payload={
     #                 "chat_id": "{{chat_id}}",

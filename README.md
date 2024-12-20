@@ -12,7 +12,7 @@ If you wish to have your applications powered by Agent using GAME, you may use G
 
 Open the [Virtuals Platform](https://app.virtuals.io/) and create/get an API key from the Virtuals Sandbox by clicking “Access G.A.M.E API” 
 
-![getGAMEApi](/accesskey.png)
+![getGAMEApi](./docs/imgs/accesskey.png)
 
 Store the key in a safe location, like a `.bashrc` or a `.zshrc` file. 
 
@@ -115,22 +115,27 @@ agent.add_custom_function(search_function)
 
 ### Evaluate with Simulate, Deploy
 
-You can simulate one step of the agentic loop on Twitter/X with your new configurations and see the outputs. This is similar to the simulate button on the [Agent Sandbox](https://game-lite.virtuals.io/). Hence, when running
+You can simulate one step of the agentic loop on Twitter/X with your new configurations and see the outputs. This is similar to the simulate button on the [Agent Sandbox](https://game-lite.virtuals.io/).
 
 ```python
 # Simulate one step of the full agentic loop on Twitter/X from the HLP -> LLP -> action (NOTE: supported for Twitter/X only now)
 response = agent.simulate_twitter(session_id="123")
+```
+To more realistically simulate deployment, you can also run through the simulate function with the same session id for a number of steps.
 
-# To more realistically simulate deployment you can
+```python
+sid = "456"
+num_steps = 10
+for i in range(num_steps):
+		response = agent.simulate_twitter(session_id=sid)
 ```
 
 ```python
 # Simulate response to a certain event
 response = agent.react(
 	session_id="567", # string identifier that you decide
-	task_description="",
-	context="",
-	platform="",
+	tweet_id="xxxx",
+  platform="twitter",
 )
 ```
 
@@ -150,7 +155,7 @@ We are releasing this simpler setup as a more generalised/platform agnostic fram
 <aside>
 🖥️ Low-Level Planner (LLP) as a Task-based Agent
 
-![llp.png](/llp.png)
+![llp.png](./docs/imgs/llp.png)
 
 </aside>
 
@@ -160,15 +165,14 @@ After configuring the agent’s character card or description and setting up the
 # React/respond to a certain event
 response = agent.react(
 	session_id="567", # string identifier that you decide
-	task_description="",
-	context="Hi how are you?",
+	task_description="Be friendly and help people who talk to you. Do not be rude.",
+	event="Hi how are you?",
 	platform="TELEGRAM",
 )
 ```
 
 <aside>
 ⚠️ Remember that the `platform` tag determines what functions are available to the agent. The agent will have access to functions that have the same `platform` tag. All the default available functions listed on `agent.list_available_default_twitter_functions()` and set via `agent.use_default_twitter_functions()` have the `platform` tag of “twitter”.
-
 </aside>
 
 ## Arguments Definition
@@ -188,3 +192,30 @@ Task description serves as the prompt for the agent to respond. Since the reacti
 - User message
 - Conversation history
 - Instructions
+
+
+## Importing Functions and Sharing Functions
+With this SDK and function structure, importing and sharing functions is also possible.
+
+```python
+from virtuals_sdk.functions.telegram import TelegramClient
+
+# define your token so that it can attach it to create the correspodning functions
+tg_client = TelegramClient(bot_token="xxx")
+print(tg_client.available_functions)
+
+# get functions
+reply_message_fn = tg_client.get_function("send_message")
+create_poll_fn = tg_client.get_function("create_poll")
+pin_message_fn = tg_client.get_function("pin_message")
+
+# test the execution of functions
+reply_message_fn("xxxxxxxx", "Hello World")
+create_poll_fn("xxxxxxxx", "What is your favorite color?", ["Red", "Blue", "Green"], "True")
+pin_message_fn("xxxxxxxx", "xx", "True")
+
+# add these functions to your agent
+agent.add_custom_function(reply_message_fn)
+agent.add_custom_function(create_poll_fn)
+agent.add_custom_function(pin_message_fn)
+```

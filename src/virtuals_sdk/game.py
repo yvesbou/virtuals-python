@@ -88,28 +88,6 @@ class Function:
         python_style = template_str.replace('{{', '$').replace('}}', '')
         return Template(python_style).safe_substitute(values)
     
-    # def _prepare_request(self, arg_dict: Dict[str, Any]) -> Dict[str, Any]:
-    #     """Prepare the request configuration with interpolated values"""
-    #     config = self.config
-        
-    #     # Interpolate URL
-    #     url = self._interpolate_template(config.url, arg_dict)
-        
-    #     # Interpolate payload
-    #     payload = {}
-    #     for key, value in config.payload.items():
-    #         if isinstance(value, str):
-    #             payload[self._interpolate_template(key, arg_dict)] = self._interpolate_template(value, arg_dict)
-    #         else:
-    #             payload[key] = value
-                
-    #     return {
-    #         "method": config.method,
-    #         "url": url,
-    #         "headers": config.headers,
-    #         "data": json.dumps(payload)
-    #     }
-    
     def _prepare_request(self, arg_dict: Dict[str, Any]) -> Dict[str, Any]:
         """Prepare the request configuration with interpolated values"""
         config = self.config
