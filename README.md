@@ -38,7 +38,7 @@ from virtuals_sdk.game import Agent
 
 # Create agent with just strings for each component
 agent = Agent(
-		api_key=VIRTUALS_API_KEY,
+    api_key=VIRTUALS_API_KEY,
     goal="Autonomously analyze crypto markets and provide trading insights",
     description="HODL-9000: A meme-loving trading bot powered by hopium and ramen",
     world_info="Virtual crypto trading environment where 1 DOGE = 1 DOGE"
@@ -120,8 +120,8 @@ for i in range(num_steps):
 ```python
 # Simulate response to a certain event
 response = agent.react(
-	session_id="567", # string identifier that you decide
-	tweet_id="xxxx",
+  session_id="567", # string identifier that you decide
+  tweet_id="xxxx",
   platform="twitter",
 )
 ```
