@@ -1,7 +1,9 @@
-from typing import List, Dict, Optional, Union, Set
+from typing import List, Any, Dict, Optional, Union, Set
 from dataclasses import dataclass, asdict
+from string import Template
 import json
 import uuid
+import requests
 from virtuals_sdk import sdk
 
 
@@ -59,6 +61,112 @@ class Function:
             "hint": self.hint,
             "config": asdict(self.config)
         }
+
+    def _validate_args(self, *args) -> Dict[str, Any]:
+        """Validate and convert positional arguments to named arguments"""
+        if len(args) != len(self.args):
+            raise ValueError(f"Expected {len(self.args)} arguments, got {len(args)}")
+        
+        # Create dictionary of argument name to value
+        arg_dict = {}
+        for provided_value, arg_def in zip(args, self.args):
+            arg_dict[arg_def.name] = provided_value
+            
+            # Type validation (basic)
+            if arg_def.type == "string" and not isinstance(provided_value, str):
+                raise TypeError(f"Argument {arg_def.name} must be a string")
+            elif arg_def.type == "array" and not isinstance(provided_value, (list, tuple)):
+                raise TypeError(f"Argument {arg_def.name} must be an array")
+            # elif arg_def.type == "boolean" and not isinstance(provided_value, bool):
+            #     raise TypeError(f"Argument {arg_def.name} must be a boolean")
+                
+        return arg_dict
+    
+    def _interpolate_template(self, template_str: str, values: Dict[str, Any]) -> str:
+        """Interpolate a template string with given values"""
+        # Convert Template-style placeholders ({{var}}) to Python style ($var)
+        python_style = template_str.replace('{{', '$').replace('}}', '')
+        return Template(python_style).safe_substitute(values)
+    
+    # def _prepare_request(self, arg_dict: Dict[str, Any]) -> Dict[str, Any]:
+    #     """Prepare the request configuration with interpolated values"""
+    #     config = self.config
+        
+    #     # Interpolate URL
+    #     url = self._interpolate_template(config.url, arg_dict)
+        
+    #     # Interpolate payload
+    #     payload = {}
+    #     for key, value in config.payload.items():
+    #         if isinstance(value, str):
+    #             payload[self._interpolate_template(key, arg_dict)] = self._interpolate_template(value, arg_dict)
+    #         else:
+    #             payload[key] = value
+                
+    #     return {
+    #         "method": config.method,
+    #         "url": url,
+    #         "headers": config.headers,
+    #         "data": json.dumps(payload)
+    #     }
+    
+    def _prepare_request(self, arg_dict: Dict[str, Any]) -> Dict[str, Any]:
+        """Prepare the request configuration with interpolated values"""
+        config = self.config
+        
+        # Interpolate URL
+        url = self._interpolate_template(config.url, arg_dict)
+        
+        # Interpolate payload
+        payload = {}
+        for key, value in config.payload.items():
+            if isinstance(value, str):
+                # Handle template values
+                template_key = self._interpolate_template(key, arg_dict)
+                if value.strip('{}') in arg_dict:
+                    # For array and other non-string types, use direct value
+                    payload[template_key] = arg_dict[value.strip('{}')]
+                else:
+                    # For string interpolation
+                    payload[template_key] = self._interpolate_template(value, arg_dict)
+            else:
+                payload[key] = value
+                
+        return {
+            "method": config.method,
+            "url": url,
+            "headers": config.headers,
+            "data": json.dumps(payload)
+        }
+        
+    def __call__(self, *args):
+        """Allow the function to be called directly with arguments"""
+        # Validate and convert args to dictionary
+        arg_dict = self._validate_args(*args)
+        
+        # Prepare request
+        request_config = self._prepare_request(arg_dict)
+        
+        # Make the request
+        response = requests.request(**request_config)
+        
+        # Handle response
+        if response.ok:
+            result = response.json()
+            # Interpolate success feedback if provided
+            if hasattr(self.config, 'success_feedback'):
+                print(self._interpolate_template(self.config.success_feedback, 
+                                              {"response": result, **arg_dict}))
+            return result
+        else:
+            # Handle error
+            error_msg = response.json() if response.content else {"description": response.reason}
+            if hasattr(self.config, 'error_feedback'):
+                print(self._interpolate_template(self.config.error_feedback,
+                                              {"response": error_msg, **arg_dict}))
+            raise requests.exceptions.HTTPError(f"Request failed: {error_msg}")
+
+
 
 class Agent:
     def __init__(
